@@ -1,0 +1,21 @@
+logging:
+  level:
+    io.github.resilience4j: DEBUG
+
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      defaults:
+        registerHealthIndicator: true
+    instances:
+      ratingSvc:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 40s
+        permittedNumberOfCallsInHalfOpenState: 2
+        #recordExceptions:
+        #  - org.springframework.dao.QueryTimeoutException
+        ignoreExceptions:
+          - demo.cb.service.exception.RatingNotFoundException
